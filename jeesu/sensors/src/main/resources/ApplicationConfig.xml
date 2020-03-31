@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="fakeSensor1" class="ru.tusur.udo.sensors.emulator.FakeSensor">
+        <property name="emulationStrategy" ref="dstrategy1"/>
+        <property name="name" value="DIGITAL_SENSOR1"/>
+    </bean>
+
+    <bean id="fakeSensor2" class="ru.tusur.udo.sensors.emulator.FakeSensor">
+        <property name="emulationStrategy" ref="dstrategy2"/>
+        <property name="name" value="DIGITAL_SENSOR2"/>
+    </bean>
+    <bean id="fakeSensor3" class="ru.tusur.udo.sensors.emulator.FakeSensor">
+        <property name="emulationStrategy" ref="dstrategy3" />
+        <property name="name" value="ANALOG_SENSOR1"/>
+    </bean>
+    <bean id="fakeSensor4" class="ru.tusur.udo.sensors.emulator.FakeSensor">
+        <property name="emulationStrategy" ref="dstrategy4"/>
+        <property name="name" value="ANALOG_SENSOR2"/>
+    </bean>
+    <bean id="fakeSensor5" class="ru.tusur.udo.sensors.emulator.FakeSensor">
+        <property name="emulationStrategy" ref="dstrategy5"/>
+        <property name="name" value="ANALOG_SENSOR3"/>
+    </bean>
+    <bean id="fakeSensor6" class="ru.tusur.udo.sensors.emulator.FakeSensor">
+        <property name="emulationStrategy" ref="dstrategy6"/>
+        <property name="name" value="ANALOG_SENSOR4"/>
+    </bean>
+    <bean id="dstrategy1" class="ru.tusur.udo.sensors.emulator.DStrategy">
+        <property name="ticks" value="2"/>
+    </bean>
+    <bean id="dstrategy2" class="ru.tusur.udo.sensors.emulator.DStrategy">
+        <property name="ticks" value="3"/>
+    </bean>
+    <bean id="dstrategy3" class="ru.tusur.udo.sensors.emulator.AStrategy" scope="prototype">
+        <property name="ticks" value="1"/>
+    </bean>
+    <bean id="dstrategy4" class="ru.tusur.udo.sensors.emulator.AStrategy">
+        <property name="ticks" value="2"/>
+    </bean>
+    <bean id="dstrategy5" class="ru.tusur.udo.sensors.emulator.AStrategy">
+        <property name="ticks" value="5"/>
+    </bean>
+    <bean id="dstrategy6" class="ru.tusur.udo.sensors.emulator.AStrategy">
+        <property name="ticks" value="10"/>
+    </bean>
+
+
+</beans>

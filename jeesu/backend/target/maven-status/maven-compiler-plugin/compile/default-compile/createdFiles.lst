@@ -1,0 +1,13 @@
+ru\tusur\udo\ejbs\camel\SensorsCamelContext.class
+ru\tusur\udo\ejbs\camel\SensorsRoutes.class
+ru\tusur\udo\ejbs\dto\SensorsSnapshot.class
+ru\tusur\udo\ejbs\dto\EnrichedSensorNode.class
+ru\tusur\udo\ejbs\controllers\ApiController.class
+ru\tusur\udo\ejbs\dto\EnrichedSensor.class
+ru\tusur\udo\ejbs\camel\SensorNodeEnrich.class
+ru\tusur\udo\ejbs\controllers\WSController.class
+ru\tusur\udo\ejbs\dto\Sensor.class
+ru\tusur\udo\ejbs\camel\SensorEnrich.class
+ru\tusur\udo\ejbs\camel\SensorsAggregationStrategy.class
+ru\tusur\udo\ejbs\dto\SensorNode.class
+ru\tusur\udo\ejbs\servises\SensorsMonitoring.class

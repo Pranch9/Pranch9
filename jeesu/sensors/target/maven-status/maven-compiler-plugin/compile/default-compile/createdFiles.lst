@@ -1,0 +1,17 @@
+ru\tusur\udo\sensors\SensorsJsonSchema.class
+ru\tusur\udo\sensors\App.class
+ru\tusur\udo\sensors\emulator\FakeSensor.class
+ru\tusur\udo\sensors\EnrichDataProcessor.class
+ru\tusur\udo\sensors\Stub.class
+ru\tusur\udo\sensors\emulator\SensorsEmulationRuntime.class
+ru\tusur\udo\sensors\SensorsController.class
+ru\tusur\udo\sensors\emulator\EmulationStrategy.class
+ru\tusur\udo\sensors\SensorsRuntimeProcessor.class
+ru\tusur\udo\sensors\emulator\AStrategy.class
+ru\tusur\udo\sensors\EnrichDataProcessor$1.class
+ru\tusur\udo\sensors\interfaces\SensorRuntime.class
+ru\tusur\udo\sensors\emulator\FakeSensor$1.class
+ru\tusur\udo\sensors\emulator\DStrategy.class
+ru\tusur\udo\sensors\SensorsRoutes.class
+ru\tusur\udo\sensors\ApplicationConfig.class
+ru\tusur\udo\sensors\interfaces\Sensor.class

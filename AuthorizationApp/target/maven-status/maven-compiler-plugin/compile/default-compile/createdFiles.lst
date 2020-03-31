@@ -1,0 +1,11 @@
+ru\pranch\authorizationapp\dao\RoleDAO.class
+ru\pranch\authorizationapp\model\User.class
+ru\pranch\authorizationapp\service\UserServiceImpl.class
+ru\pranch\authorizationapp\controller\UserController.class
+ru\pranch\authorizationapp\model\Role.class
+ru\pranch\authorizationapp\service\UserService.class
+ru\pranch\authorizationapp\service\SecurityServiceImpl.class
+ru\pranch\authorizationapp\service\SecurityService.class
+ru\pranch\authorizationapp\dao\UserDAO.class
+ru\pranch\authorizationapp\service\UserDetailsServiceImpl.class
+ru\pranch\authorizationapp\validator\UserValidator.class

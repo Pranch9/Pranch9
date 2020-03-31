@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+    <title>Books</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<!--Навигационная панель -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">LibraryList</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">LogIn</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/main">Main</a>
+            </li>
+        </ul>
+        <div class="navbar-text mr-3">[[${#httpServletRequest.remoteUser}]]!</div>
+    </div>
+    <form th:action="@{/logout}" method="post">
+        <button class="btn btn-primary" type="submit">Sign Out</button>
+    </form>
+</nav>
+<!--Навигационная панель -->
+<div class="container">
+    <div th:switch="${books}">
+        <h2 th:case="null">No books found!</h2>
+        <div th:case="*">
+            <h2>Books</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">publishing</th>
+                    <th scope="col">Holder</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.author}"></td>
+                    <td th:text="${book.isbn}"></td>
+                    <td th:text="${book.year}"></td>
+                    <td th:text="${book.publishing}"></td>
+                    <td th:text="${book.holderName}"></td>
+                    <td><a class="btn btn-success btn-sm" th:href="@{/book/edit/{id}(id=${book.id})}"
+                           role="button">Edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" th:href="@{/book/delete/{id}(id=${book.id})}" role="button">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <form method="get" th:action="bookFilter" class="form-inline">
+            <input type="text" name="filter" class="form-control" placeholder="Find a book by title"/>
+            <button class="btn btn-secondary btn-sm ml-2" type="submit">Search</button>
+        </form>
+    </div>
+    <a class="btn btn-primary mt-2" href="/book/add" role="button">Add book</a>
+    <a class="btn btn-primary mt-2" href="/" role="button">Back</a>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
