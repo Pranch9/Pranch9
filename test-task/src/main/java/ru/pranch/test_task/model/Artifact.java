@@ -1,7 +1,5 @@
 package ru.pranch.test_task.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,18 +8,28 @@ public class Artifact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    @DateTimeFormat
+    private Long id;
+
     private String date;
     private String userId;
     private String category;
-    private String Description;
+    private String description;
 
-    public long getId() {
+    public Artifact() {
+    }
+
+    public Artifact(String date, String userId, String category, String description) {
+        this.date = date;
+        this.userId = userId;
+        this.category = category;
+        this.description = description;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -50,10 +58,10 @@ public class Artifact {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 }

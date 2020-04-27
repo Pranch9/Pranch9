@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Update Artifact</title>
+</head>
+<body>
+<div class="container">
+    <h1>Update Artifact</h1>
+    <form th:action="@{/artifact/edit}" th:object="${artifact}" method="POST">
+        <input readonly type="hidden" id="id" th:field="*{id}" placeholder="ID">
+        <div class="form-group row">
+            <label for="title" class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-3">
+                <input ttype="text" class="form-control" th:field="*{date}" id="title" placeholder="date">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="author" class="col-sm-2 col-form-label">Author</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" th:field="*{category}" id="author" placeholder="category">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="year" class="col-sm-2 col-form-label">Year</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" th:field="*{description}" id="year" placeholder="description">
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Update Artifact</button>
+    </form>
+</div>
+</body>
+</html>
