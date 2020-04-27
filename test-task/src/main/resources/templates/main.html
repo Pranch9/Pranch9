@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+<head>
+    <title>Main page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Main page</h1>
+    <h2>Общая статистика</h2>
+    <th>Количество пользователей
+    <td th:text="${userCounter}"></td>
+    </th>
+    <br>
+    <th>Количество Артефактов
+    <td th:text="${bookCounter}"></td>
+    </th>
+</div>
+</body>
+</html>

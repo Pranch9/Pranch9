@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Artifact list</title>
+</head>
+<body>
+<div th:switch="${artifacts}">
+    <h2 th:case="null">No artifacts found!</h2>
+    <div th:case="*">
+        <h2>Artifacts</h2>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Created</th>
+                <th scope="col">UserId</th>
+                <th scope="col">Category</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="artifact : ${artifacts}">
+                <td th:text="${artifact.id}"></td>
+                <td th:text="${artifact.date}"></td>
+                <td th:text="${artifact.userId}"></td>
+                <td th:text="${artifact.category}"></td>
+                <td th:text="${artifact.description}"></td>
+                <td><a class="btn btn-success btn-sm" th:href="@{/artifact/edit/{id}(id=${artifact.id})}"
+                       role="button">Edit</a></td>
+                <td><a class="btn btn-danger btn-sm" th:href="@{/artifact/delete/{id}(id=${artifact.id})}" role="button">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form method="get" th:action="artifactFilter" class="form-inline">
+        <input type="text" name="filter" class="form-control" placeholder="Find a artifact by category"/>
+        <button class="btn btn-secondary btn-sm ml-2" type="submit">Search</button>
+    </form>
+</div>
+<a class="btn btn-primary mt-2" href="/artifact/add" role="button">Add artifact</a>
+<a class="btn btn-primary mt-2" href="/" role="button">Back</a>
+</div>
+</body>
+</html>
