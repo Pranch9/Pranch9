@@ -8,24 +8,36 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private long artifactId;
+    private Long id;
+
+    private Long artifactId;
+
     private String userId;
+
     private String comment;
 
-    public long getId() {
+    public Comment() {
+    }
+
+    public Comment(Long artifactId, String userId, String comment) {
+        this.artifactId = artifactId;
+        this.userId = userId;
+        this.comment = comment;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getArtifactId() {
+    public Long getArtifactId() {
         return artifactId;
     }
 
-    public void setArtifactId(long artifactId) {
+    public void setArtifactId(Long artifactId) {
         this.artifactId = artifactId;
     }
 

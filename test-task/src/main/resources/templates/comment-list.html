@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment list</title>
+</head>
+<body>
+<div th:switch="${comments}">
+    <h2 th:case="null">No comment found!</h2>
+    <div th:case="*">
+        <h2>Comments</h2>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">ArtifactId</th>
+                <th scope="col">UserId</th>
+                <th scope="col">Comment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="comment: ${comments}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.artifactId}"></td>
+                <td th:text="${comment.userId}"></td>
+                <td th:text="${comment.comment}"></td>
+                <td><a class="btn btn-success btn-sm" th:href="@{/artifact/edit/{id}(id=${comment.id})}"
+                       role="button">Edit</a></td>
+                <td><a class="btn btn-danger btn-sm" th:href="@{/artifact/delete/{id}(id=${comment.id})}"
+                       role="button">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <form method="get" th:action="commentFilter" class="form-inline">
+        <input type="text" name="filter" class="form-control" placeholder="Find a comment by userId"/>
+        <button class="btn btn-secondary btn-sm ml-2" type="submit">Search</button>
+    </form>
+</div>
+<a class="btn btn-primary mt-2" href="/comment/add" role="button">Add Comment</a>
+<a class="btn btn-primary mt-2" href="/artifact" role="button">Back</a>
+</div>
+</body>
+</html>

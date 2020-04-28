@@ -1,10 +1,12 @@
 package ru.pranch.test_task.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.test_task.model.Artifact;
+import ru.pranch.test_task.model.User;
 import ru.pranch.test_task.repos.ArtifactRepos;
 import ru.pranch.test_task.service.ArtifactService;
 
@@ -58,13 +60,12 @@ public class ArtifactController {
 
     @PostMapping("/add")
     public String addArtifact(
+            @AuthenticationPrincipal User user,
             @RequestParam String date,
-            @RequestParam String userId,
             @RequestParam String category,
             @RequestParam String description) {
-        Artifact artifact = new Artifact(date, userId, description, category);
+        Artifact artifact = new Artifact(date, description, category, user);
         artifactRepos.save(artifact);
         return "redirect:/artifact";
     }
-
 }

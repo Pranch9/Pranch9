@@ -11,20 +11,26 @@ public class Artifact {
     private Long id;
 
     private String date;
-    private String userId;
     private String category;
     private String description;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     public Artifact() {
     }
 
-    public Artifact(String date, String userId, String category, String description) {
+    public Artifact(String date, String category, String description, User user) {
         this.date = date;
-        this.userId = userId;
         this.category = category;
         this.description = description;
+        this.userId = user;
     }
 
+    public String getUserId() {
+        return userId != null ? userId.getUsername() : "<none>";
+    }
     public Long getId() {
         return id;
     }
@@ -41,14 +47,6 @@ public class Artifact {
         this.date = date;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getCategory() {
         return category;
     }
@@ -63,5 +61,9 @@ public class Artifact {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 }

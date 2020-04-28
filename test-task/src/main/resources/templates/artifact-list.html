@@ -28,7 +28,10 @@
                 <td th:text="${artifact.description}"></td>
                 <td><a class="btn btn-success btn-sm" th:href="@{/artifact/edit/{id}(id=${artifact.id})}"
                        role="button">Edit</a></td>
-                <td><a class="btn btn-danger btn-sm" th:href="@{/artifact/delete/{id}(id=${artifact.id})}" role="button">Delete</a>
+                <td><a class="btn btn-danger btn-sm" th:href="@{/artifact/delete/{id}(id=${artifact.id})}"
+                       role="button">Delete</a>
+                <td><a class="btn btn-danger btn-sm" th:href="@{/artifact/{id}/comments(id=${artifact.id})}"
+                       role="button">Comments</a>
                 </td>
             </tr>
             </tbody>
