@@ -5,10 +5,17 @@
     <title>Comment list</title>
 </head>
 <body>
+<div>
+    <h2>Add your Comment</h2>
+    <form method="post" th:action="comments">
+        <input type="text" name="text" placeholder="Write your own comment"/>
+        <button type="submit">Add</button>
+    </form>
+</div>
 <div th:switch="${comments}">
     <h2 th:case="null">No comment found!</h2>
     <div th:case="*">
-        <h2>Comments</h2>
+        <h2>Comments list</h2>
         <table class="table">
             <thead class="thead-dark">
             <tr>

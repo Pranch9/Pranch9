@@ -20,6 +20,7 @@ public class ArtifactController {
     @Autowired
     private ArtifactService artifactService;
 
+
     @GetMapping
     public String findAllArtifacts(Model model) {
         List<Artifact> artifacts = artifactService.findAll();

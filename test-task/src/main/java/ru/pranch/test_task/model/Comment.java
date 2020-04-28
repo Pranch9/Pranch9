@@ -12,19 +12,23 @@ public class Comment {
 
     private Long artifactId;
 
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     private String comment;
 
     public Comment() {
     }
 
-    public Comment(Long artifactId, String userId, String comment) {
+    public Comment(Long artifactId, User user, String comment) {
         this.artifactId = artifactId;
-        this.userId = userId;
+        this.userId = user;
         this.comment = comment;
     }
-
+    public String getUserId() {
+        return userId != null ? userId.getUsername() : "<none>";
+    }
     public Long getId() {
         return id;
     }
@@ -41,19 +45,16 @@ public class Comment {
         this.artifactId = artifactId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 }

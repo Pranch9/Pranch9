@@ -8,7 +8,7 @@ import ru.pranch.test_task.repos.CommentRepos;
 import java.util.List;
 
 @Service
-public class CommentService {
+public class CommentService  {
     @Autowired
     private CommentRepos commentRepos;
 
