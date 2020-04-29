@@ -15,20 +15,7 @@ public class ArtifactService {
         this.artifactRepos = artifactRepos;
     }
 
-    public List<Artifact> findAllByCategory(String category) {
-        return artifactRepos.findAllByCategory(category);
-    }
-
     public List<Artifact> findAllByMultipleParams(String category, String userID) {
         return artifactRepos.findAllByCategoryAndAndUserId(category, userID);
     }
-
-    public List<Artifact> findAllByDescription(String description) {
-        return artifactRepos.findAllByDescription(description);
-    }
-
-    public List<Artifact> findAllByUserId(String userId) {
-        return artifactRepos.findAllByUserId(userId);
-    }
-
 }
