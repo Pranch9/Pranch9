@@ -15,5 +15,4 @@ public interface ArtifactRepos extends JpaRepository<Artifact, Long> {
     List<Artifact> findAllByUserId(String userId);
 
     List<Artifact> findAllByDescription(String description);
-
 }

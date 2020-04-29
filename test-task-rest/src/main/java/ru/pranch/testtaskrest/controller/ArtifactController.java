@@ -4,7 +4,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.testtaskrest.model.Artifact;
+import ru.pranch.testtaskrest.model.Comment;
 import ru.pranch.testtaskrest.repository.ArtifactRepos;
+import ru.pranch.testtaskrest.repository.CommentRepos;
 import ru.pranch.testtaskrest.service.ArtifactService;
 import ru.pranch.testtaskrest.service.CommentService;
 
@@ -16,13 +18,11 @@ import java.util.List;
 public class ArtifactController {
     private final ArtifactRepos artifactRepos;
     private final ArtifactService artifactService;
-    private final CommentService commentService;
 
     @Autowired
-    public ArtifactController(ArtifactRepos artifactRepos, ArtifactService artifactService, CommentService commentService) {
+    public ArtifactController(ArtifactRepos artifactRepos, ArtifactService artifactService) {
         this.artifactRepos = artifactRepos;
         this.artifactService = artifactService;
-        this.commentService = commentService;
     }
 
     @GetMapping
@@ -35,9 +35,9 @@ public class ArtifactController {
         return artifact;
     }
 
-    @RequestMapping("/filter")
-    public List<Artifact> getAll(@RequestParam(value = "category") String category,
-                                 @RequestParam(value = "userId") String userId) {
+    @RequestMapping("/multiParams")
+    public List<Artifact> getAllByMultiParams(@RequestParam(value = "category") String category,
+                                              @RequestParam(value = "userId") String userId) {
         return artifactService.findAllByMultipleParams(category, userId);
     }
 

@@ -38,6 +38,12 @@ public class CommentController {
         return comment;
     }
 
+
+    @GetMapping("/content")
+    public List<Comment> findByComment(String content) {
+        return commentRepos.findAllByContent(content);
+    }
+
     @PostMapping("{id}/comments")
     public Comment create(@PathVariable("id") Artifact artifact,
                           @RequestBody Comment comment) {
