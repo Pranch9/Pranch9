@@ -3,16 +3,13 @@ package ru.pranch.testtaskrest.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.testtaskrest.model.Artifact;
 import ru.pranch.testtaskrest.repository.ArtifactRepos;
 import ru.pranch.testtaskrest.service.ArtifactService;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("artifact")
@@ -28,39 +25,28 @@ public class ArtifactController {
 
 
     @GetMapping
-    public Page<Artifact> listBy(@RequestParam Optional<String> category,
-                                 @RequestParam Optional<String> userId,
-                                 @RequestParam Optional<String> description,
-                                 @RequestParam Optional<Integer> page,
-                                 @RequestParam Optional<String> sortBy) {
-        if (category.isPresent()) {
-            return artifactRepos.findAllByCategory(category.orElse("_"),
-                    PageRequest.of(page.orElse(0), 10,
-                            Sort.Direction.ASC, sortBy.orElse("id")));
+    public Page<Artifact> listBy(String category,
+                                 String userId,
+                                 String description,
+                                 Pageable pageable) {
+        if (category != null && userId != null) {
+            return artifactRepos.findAllByCategoryAndAndUserId(category, userId, pageable);
         }
-        if (userId.isPresent()) {
-            return artifactRepos.findAllByUserId(userId.orElse("_"),
-                    PageRequest.of(page.orElse(0), 10,
-                            Sort.Direction.ASC, sortBy.orElse("id")));
+        if (category != null) {
+            return artifactRepos.findAllByCategory(category, pageable);
         }
-        if (description.isPresent()) {
-            return artifactRepos.findAllByDescription(description.orElse("_"),
-                    PageRequest.of(page.orElse(0), 10,
-                            Sort.Direction.ASC, sortBy.orElse("id")));
+        if (userId != null) {
+            return artifactRepos.findAllByUserId(userId, pageable);
         }
-        return artifactRepos.findAll(PageRequest.of(page.orElse(0), 10,
-                Sort.Direction.ASC, sortBy.orElse("id")));
+        if (description != null) {
+            return artifactRepos.findAllByDescription(description, pageable);
+        }
+        return artifactRepos.findAll(pageable);
     }
 
     @GetMapping("{id}")
     public Artifact getOne(@PathVariable("id") Artifact artifact) {
         return artifact;
-    }
-
-    @RequestMapping("/multiParams")
-    public List<Artifact> getAllByMultiParams(@RequestParam(value = "category") String category,
-                                              @RequestParam(value = "userId") String userId) {
-        return artifactService.findAllByMultipleParams(category, userId);
     }
 
     @PostMapping
