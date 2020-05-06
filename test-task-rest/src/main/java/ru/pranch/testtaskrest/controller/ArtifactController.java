@@ -15,12 +15,10 @@ import java.time.LocalDateTime;
 @RequestMapping("artifact")
 public class ArtifactController {
     private final ArtifactRepos artifactRepos;
-    private final ArtifactService artifactService;
 
     @Autowired
-    public ArtifactController(ArtifactRepos artifactRepos, ArtifactService artifactService) {
+    public ArtifactController(ArtifactRepos artifactRepos) {
         this.artifactRepos = artifactRepos;
-        this.artifactService = artifactService;
     }
 
 

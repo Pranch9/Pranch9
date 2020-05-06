@@ -21,6 +21,12 @@ public class Artifact {
     public Artifact() {
     }
 
+    public Artifact(String userId, String category, String description) {
+        this.userId = userId;
+        this.category = category;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }
