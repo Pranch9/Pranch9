@@ -7,13 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.testtaskrest.model.Artifact;
 import ru.pranch.testtaskrest.repository.ArtifactRepos;
-import ru.pranch.testtaskrest.service.ArtifactService;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("artifact")
 public class ArtifactController {
+
     private final ArtifactRepos artifactRepos;
 
     @Autowired
@@ -43,8 +44,8 @@ public class ArtifactController {
     }
 
     @GetMapping("{id}")
-    public Artifact getOne(@PathVariable("id") Artifact artifact) {
-        return artifact;
+    public Optional<Artifact> getOne(@PathVariable("id") Long id) {
+        return artifactRepos.findById(id);
     }
 
     @PostMapping
