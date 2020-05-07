@@ -2,68 +2,71 @@ package ru.pranch.testtaskrest.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.testtaskrest.model.Artifact;
-import ru.pranch.testtaskrest.repository.ArtifactRepos;
+import ru.pranch.testtaskrest.service.ArtifactService;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("artifact")
+@RequestMapping("/")
 public class ArtifactController {
 
-    private final ArtifactRepos artifactRepos;
+    private final ArtifactService artifactService;
 
     @Autowired
-    public ArtifactController(ArtifactRepos artifactRepos) {
-        this.artifactRepos = artifactRepos;
+    public ArtifactController(ArtifactService artifactService) {
+        this.artifactService = artifactService;
     }
 
-
     @GetMapping
-    public Page<Artifact> listBy(String category,
+    public Iterable<Artifact> findAll(Pageable pageable) {
+        return artifactService.findAll(pageable);
+    }
+
+    @GetMapping("/artifact")
+    public Iterable<Artifact> listBy(String category,
                                  String userId,
                                  String description,
                                  Pageable pageable) {
         if (category != null && userId != null) {
-            return artifactRepos.findAllByCategoryAndAndUserId(category, userId, pageable);
+            return artifactService.findAllByCategoryAndAndUserId(category, userId, pageable);
         }
         if (category != null) {
-            return artifactRepos.findAllByCategory(category, pageable);
+            return artifactService.findAllByCategory(category, pageable);
         }
         if (userId != null) {
-            return artifactRepos.findAllByUserId(userId, pageable);
+            return artifactService.findAllByUserId(userId, pageable);
         }
         if (description != null) {
-            return artifactRepos.findAllByDescription(description, pageable);
+            return artifactService.findAllByDescription(description, pageable);
         }
-        return artifactRepos.findAll(pageable);
+        return artifactService.findAll(pageable);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/artifact/{id}")
     public Optional<Artifact> getOne(@PathVariable("id") Long id) {
-        return artifactRepos.findById(id);
+        return artifactService.findById(id);
     }
 
     @PostMapping
     public Artifact create(@RequestBody Artifact artifact) {
         artifact.setCreationDate(LocalDateTime.now());
-        return artifactRepos.save(artifact);
+        return artifactService.save(artifact);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/artifact/{id}")
     public Artifact update(@PathVariable("id") Artifact artifactFromDb,
                            @RequestBody Artifact artifact) {
         BeanUtils.copyProperties(artifact, artifactFromDb, "id");
-        return artifactRepos.save(artifactFromDb);
+        return artifactService.save(artifactFromDb);
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Artifact artifact) {
-        artifactRepos.delete(artifact);
+    @DeleteMapping("/artifact/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        artifactService.delete(id);
     }
 
 }
