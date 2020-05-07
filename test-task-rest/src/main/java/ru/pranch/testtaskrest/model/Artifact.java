@@ -27,12 +27,11 @@ public class Artifact {
         this.description = description;
     }
 
-    public Artifact(Long id, String userId, String category, String description, LocalDateTime creationDate) {
+    public Artifact(Long id, String userId, String category, String description) {
         this.id = id;
         this.userId = userId;
         this.category = category;
         this.description = description;
-        this.creationDate = creationDate;
     }
 
     public Long getId() {

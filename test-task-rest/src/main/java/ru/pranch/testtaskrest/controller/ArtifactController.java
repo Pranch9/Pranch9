@@ -51,7 +51,7 @@ public class ArtifactController {
         return artifactService.findById(id);
     }
 
-    @PostMapping
+    @PostMapping("/artifact")
     public Artifact create(@RequestBody Artifact artifact) {
         artifact.setCreationDate(LocalDateTime.now());
         return artifactService.save(artifact);
