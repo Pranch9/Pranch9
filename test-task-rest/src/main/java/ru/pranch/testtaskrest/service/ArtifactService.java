@@ -46,6 +46,6 @@ public class ArtifactService {
     }
 
     public Artifact save(Artifact artifact) {
-        return artifactRepos.save(artifact);
+        return artifactRepos.saveAndFlush(artifact);
     }
 }

@@ -2,15 +2,12 @@ package ru.pranch.testtaskrest.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.testtaskrest.model.Artifact;
 import ru.pranch.testtaskrest.model.Comment;
 import ru.pranch.testtaskrest.repository.CommentRepos;
 import ru.pranch.testtaskrest.service.CommentService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("artifact")
@@ -26,16 +23,16 @@ public class CommentController {
     }
 
     @GetMapping("/comments")
-    public Page<Comment> list(String content, Pageable pageable) {
-        if (content == null){
-            return commentRepos.findAll(pageable);
+    public Iterable<Comment> list(String content, Pageable pageable) {
+        if (content != null) {
+            return commentRepos.findAllByContent(content, pageable);
         }
-        return commentRepos.findAllByContent(content, pageable);
+        return commentRepos.findAll(pageable);
     }
 
     @GetMapping("{id}/comments")
-    public List<Comment> list(@PathVariable("id") Artifact artifact) {
-        return commentService.findByArtifactId(artifact);
+    public Iterable<Comment> list(@PathVariable("id") Artifact artifact, Pageable pageable) {
+        return commentService.findAllByArtifactId(artifact, pageable);
     }
 
     @GetMapping("/comments/{id}")
