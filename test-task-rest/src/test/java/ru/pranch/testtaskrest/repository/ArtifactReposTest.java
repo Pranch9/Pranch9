@@ -28,21 +28,20 @@ public class ArtifactReposTest {
     @Test
     public void findByUserId() {
         // given
-        Artifact artifact = new Artifact("alex", "balex", "galex");
-        Artifact artifact2 = new Artifact("alex", "balex", "galex");
-        Artifact artifact3 = new Artifact("alex", "balex", "galex");
+        Artifact artifact1 = new Artifact("Spring1", "Boot1", "Test1");
+        Artifact artifact2 = new Artifact("Spring2", "Boot2", "Test2");
+        Artifact artifact3 = new Artifact("Spring3", "Boot3", "Test3");
 
-        entityManager.persist(artifact);
+        entityManager.persist(artifact1);
         entityManager.persist(artifact2);
         entityManager.persist(artifact3);
         entityManager.flush();
 
         // when
-        Optional<Artifact> found = artifactRepos.findById(artifact.getId());
+        Optional<Artifact> found = artifactRepos.findById(artifact1.getId());
 
         // then
-        assertThat(found.get().getId())
-                .isEqualTo(artifact.getId());
+        assertThat(found.get().getId()).isEqualTo(artifact1.getId());
     }
 
 }

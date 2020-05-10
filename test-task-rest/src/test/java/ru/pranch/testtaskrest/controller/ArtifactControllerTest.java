@@ -116,7 +116,7 @@ public class ArtifactControllerTest {
                 .when().get("artifact/{id}")
 
                 .then().log().body().statusCode(HttpStatus.OK.value())
-                .and().body("userId", equalTo("Spring"));
+                .and().body("userId", equalTo("Spring1"));
     }
 
     @Test
@@ -132,5 +132,44 @@ public class ArtifactControllerTest {
                 .and().body("content.get(1).userId", equalTo("Spring2"))
                 .and().body("totalElements", equalTo(5))
                 .and().body("content", hasSize(5));
+    }
+
+    @Test
+    public void findAllByCategoryTest() {
+        String category = repos.findAll().get(0).getCategory();
+        given()
+                .pathParams("category", category)
+                .auth().preemptive().basic(username, password)
+
+                .when().get("/artifact?category={category}")
+
+                .then().log().body().statusCode(HttpStatus.OK.value())
+                .and().body("content.get(0).userId",equalTo("Spring1"));
+    }
+
+    @Test
+    public void findAllByUserIdTest() {
+        String userId = repos.findAll().get(0).getUserId();
+        given()
+                .pathParams("userId", userId)
+                .auth().preemptive().basic(username, password)
+
+                .when().get("/artifact?userId={userId}")
+
+                .then().log().body().statusCode(HttpStatus.OK.value())
+                .and().body("content.get(0).category",equalTo("Boot1"));
+    }
+
+    @Test
+    public void findAllByDescriptionTest() {
+        String description = repos.findAll().get(0).getDescription();
+        given()
+                .pathParams("description", description)
+                .auth().preemptive().basic(username, password)
+
+                .when().get("/artifact?description={description}")
+
+                .then().log().body().statusCode(HttpStatus.OK.value())
+                .and().body("content.get(0).userId",equalTo("Spring1"));
     }
 }
