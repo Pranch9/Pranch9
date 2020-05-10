@@ -1,113 +1,136 @@
 package ru.pranch.testtaskrest.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import ru.pranch.testtaskrest.model.Artifact;
+import ru.pranch.testtaskrest.repository.ArtifactRepos;
 import ru.pranch.testtaskrest.service.ArtifactService;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ArtifactControllerTest {
 
-    private static final ObjectMapper om = new ObjectMapper();
+    private final String username = "admin";
+    private final String password = "admin";
+
+    @LocalServerPort
+    private int port;
 
     @Autowired
-    private MockMvc mockMvc;
+    private ArtifactService service;
 
-    @Mock
-    private ArtifactService artifactService;
+    @Autowired
+    private ArtifactRepos repos;
 
     @Before
-    public void init() {
-        Artifact artifact = new Artifact(1L, "Book Name", "Mkyong", "9.99");
+    public void setup() {
+        RestAssured.port = port;
+        Artifact testData;
+        testData = new Artifact("Spring1", "Boot1", "Test1");
+        repos.saveAndFlush(testData);
+        testData = new Artifact("Spring2", "Boot2", "Test2");
+        repos.saveAndFlush(testData);
+        testData = new Artifact("Spring3", "Boot3", "Test3");
+        repos.saveAndFlush(testData);
+        testData = new Artifact("Spring4", "Boot4", "Test4");
+        repos.saveAndFlush(testData);
+        testData = new Artifact("Spring5", "Boot5", "Test5");
+        repos.saveAndFlush(testData);
+    }
 
+    @After
+    public void resetDb() {
+        repos.deleteAll();
+        repos.flush();
     }
 
     @Test
-    @WithMockUser
-    public void findByIdTest() throws Exception {
-        mockMvc.perform(get("/artifact/1"))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.userId", is("privet")))
-                .andExpect(jsonPath("$.category", is("test1")))
-                .andExpect(jsonPath("$.description", is("qqqqq")));
-    }
-
-    @Test
-    @WithMockUser
-    public void findAllArtifactsTest() throws Exception {
-
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.content", hasSize(4)));
-    }
-
-    @Test
-    @WithMockUser
-    public void findAllArtifactsPageableTest() throws Exception {
-
-        mockMvc.perform(get("/artifact"))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$.content", hasSize(4)));
-    }
-
-    @Test
-    @WithMockUser
-    public void deleteByIdTest() throws Exception {
-
-        doNothing().when(artifactService).delete(1L);
-
-        mockMvc.perform(delete("/artifact/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser
     public void addArtifactTest() throws Exception {
         Artifact artifact = new Artifact("Spring", "Boot", "Test");
-        when(artifactService.save(artifact)).thenReturn(artifact);
 
-        mockMvc.perform(post("/artifact")
-                .content(om.writeValueAsString(artifact))
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        given()
+                .auth().preemptive().basic(username, password)
+                .log().body()
+                .contentType("application/json").body(artifact)
+
+                .when().post("/artifact")
+
+                .then().log().body()
+                .statusCode(HttpStatus.OK.value());
     }
 
     @Test
-    @WithMockUser
-    public void updateArtifactTest() throws Exception {
-        Artifact artifact = new Artifact(1L, "SpringUpdate", "BootUpdate", "TestUpdate");
-        when(artifactService.save(artifact)).thenReturn(artifact);
+    public void updateArtifactTest() {
+        long id = repos.findAll().get(0).getId();
+        Artifact artifact = new Artifact("UpdSpring", "UpdBoot", "UpdTest");
 
-        mockMvc.perform(put("/artifact/1")
-                .content(om.writeValueAsString(artifact))
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userId", is("SpringUpdate")));
+        given()
+                .pathParam("id", id)
+                .auth().preemptive().basic(username, password)
+                .log().body()
+                .contentType("application/json").body(artifact)
+
+                .when().put("/artifact/{id}")
+
+                .then().log().body().statusCode(HttpStatus.OK.value())
+                .and().body("userId", equalTo("UpdSpring"));
+    }
+
+    @Test
+    public void deleteArtifactTest() {
+        long id = repos.findAll().get(0).getId();
+
+        given()
+                .pathParam("id", id)
+                .auth().preemptive().basic(username, password)
+                .log().body()
+                .contentType("application/json")
+
+                .when().delete("/artifact/{id}")
+
+                .then().log().body().statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void findByIdTest() {
+        long id = repos.findAll().get(0).getId();
+        given()
+                .pathParams("id", id)
+                .auth().preemptive().basic(username, password)
+                .log().body()
+
+                .when().get("artifact/{id}")
+
+                .then().log().body().statusCode(HttpStatus.OK.value())
+                .and().body("userId", equalTo("Spring"));
+    }
+
+    @Test
+    public void findAllTest() {
+        given()
+                .auth().preemptive().basic(username, password)
+
+                .when().get("/")
+
+                .then().log().body()
+                .statusCode(HttpStatus.OK.value())
+                .and().body("content.get(0).userId", equalTo("Spring1"))
+                .and().body("content.get(1).userId", equalTo("Spring2"))
+                .and().body("totalElements", equalTo(5))
+                .and().body("content", hasSize(5));
     }
 }
