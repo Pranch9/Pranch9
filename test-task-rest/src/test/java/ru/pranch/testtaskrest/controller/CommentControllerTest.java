@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.hasSize;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class CommentServiceTest {
+public class CommentControllerTest {
 
     private final String username = "admin";
     private final String password = "admin";
@@ -43,24 +43,12 @@ public class CommentServiceTest {
         Artifact testDataArtifact;
         testDataArtifact = new Artifact("Creator1", "Boot1", "Test1");
         artifactRepos.saveAndFlush(testDataArtifact);
-        testDataArtifact = new Artifact("Creator2", "Boot2", "Test2");
-        artifactRepos.saveAndFlush(testDataArtifact);
-        testDataArtifact = new Artifact("Creator3", "Boot3", "Test3");
-        artifactRepos.saveAndFlush(testDataArtifact);
-        testDataArtifact = new Artifact("Creator4", "Boot4", "Test4");
-        artifactRepos.saveAndFlush(testDataArtifact);
-        testDataArtifact = new Artifact("Creator5", "Boot5", "Test5");
-        artifactRepos.saveAndFlush(testDataArtifact);
         Comment testDataComment;
-        testDataComment = new Comment(artifactRepos.getOne(1L), "Spring1", "ContentBoot1");
-        commentRepos.save(testDataComment);
-        testDataComment = new Comment(artifactRepos.getOne(2L), "Spring2", "ContentBoot2");
-        commentRepos.save(testDataComment);
-        testDataComment = new Comment(artifactRepos.getOne(3L), "Spring3", "ContentBoot3");
-        commentRepos.save(testDataComment);
-        testDataComment = new Comment(artifactRepos.getOne(4L), "Spring4", "ContentBoot4");
-        commentRepos.save(testDataComment);
-        testDataComment = new Comment(artifactRepos.getOne(5L), "Spring5", "ContentBoot5");
+        testDataComment = new Comment("Spring1", "ContentBoot1");
+        testDataComment.setArtifactId(testDataArtifact);
+        commentRepos.saveAndFlush(testDataComment);
+        testDataComment = new Comment("Spring2", "ContentBoot2");
+        testDataComment.setArtifactId(testDataArtifact);
         commentRepos.saveAndFlush(testDataComment);
     }
 
@@ -70,7 +58,6 @@ public class CommentServiceTest {
         commentRepos.flush();
         artifactRepos.deleteAll();
         artifactRepos.flush();
-
     }
 
     @Test
@@ -130,8 +117,8 @@ public class CommentServiceTest {
                 .statusCode(HttpStatus.OK.value())
                 .and().body("content.get(0).userId", equalTo("Spring1"))
                 .and().body("content.get(1).userId", equalTo("Spring2"))
-                .and().body("totalElements", equalTo(5))
-                .and().body("content", hasSize(5));
+                .and().body("totalElements", equalTo(2))
+                .and().body("content", hasSize(2));
     }
 
     @Test

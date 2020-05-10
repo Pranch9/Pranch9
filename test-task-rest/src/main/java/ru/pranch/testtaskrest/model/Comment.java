@@ -1,6 +1,6 @@
 package ru.pranch.testtaskrest.model;
 
-import org.springframework.context.annotation.Primary;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,10 +10,18 @@ import java.util.Objects;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "comments")
+    @GenericGenerator(
+            name = "comments",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "COMMENTS"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            })
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToOne(targetEntity = Artifact.class)
     @JoinColumn(name = "artifact_id")
     private Artifact artifactId;
     private String userId;
@@ -23,12 +31,6 @@ public class Comment {
     }
 
     public Comment(String userId, String content) {
-        this.userId = userId;
-        this.content = content;
-    }
-
-    public Comment(Artifact artifactId, String userId, String content) {
-        this.artifactId = artifactId;
         this.userId = userId;
         this.content = content;
     }

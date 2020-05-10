@@ -1,4 +1,4 @@
-package ru.pranch.testtaskrest.repository;
+package ru.pranch.testtaskrest.model;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.pranch.testtaskrest.model.Artifact;
+import ru.pranch.testtaskrest.repository.ArtifactRepos;
 
 import java.util.Optional;
 
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class ArtifactReposTest {
+public class ArtifactTest {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -43,5 +43,4 @@ public class ArtifactReposTest {
         // then
         assertThat(found.get().getId()).isEqualTo(artifact1.getId());
     }
-
 }
