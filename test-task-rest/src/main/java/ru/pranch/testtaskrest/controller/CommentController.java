@@ -6,28 +6,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import ru.pranch.testtaskrest.model.Artifact;
 import ru.pranch.testtaskrest.model.Comment;
-import ru.pranch.testtaskrest.repository.CommentRepos;
 import ru.pranch.testtaskrest.service.CommentService;
 
 @RestController
 @RequestMapping("artifact")
 public class CommentController {
 
-    private final CommentRepos commentRepos;
     private final CommentService commentService;
 
     @Autowired
-    public CommentController(CommentRepos commentRepos, CommentService commentService) {
-        this.commentRepos = commentRepos;
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
     }
 
     @GetMapping("/comments")
     public Iterable<Comment> list(String content, Pageable pageable) {
         if (content != null) {
-            return commentRepos.findAllByContent(content, pageable);
+            return commentService.findAllByContent(content, pageable);
         }
-        return commentRepos.findAll(pageable);
+        return commentService.findAll(pageable);
     }
 
     @GetMapping("{id}/comments")
@@ -44,7 +41,7 @@ public class CommentController {
     public Comment create(@PathVariable("id") Artifact artifact,
                           @RequestBody Comment comment) {
         comment.setArtifactId(artifact);
-        return commentRepos.save(comment);
+        return commentService.save(comment);
     }
 
     @PutMapping("/comments/{id}")
@@ -55,12 +52,12 @@ public class CommentController {
         } else {
             BeanUtils.copyProperties(comment, commentFromDb, "id", "artifactId");
         }
-        return commentRepos.save(commentFromDb);
+        return commentService.save(commentFromDb);
     }
 
     @DeleteMapping("/comments/{id}")
-    public void delete(@PathVariable("id") Comment comment) {
-        commentRepos.delete(comment);
+    public void delete(@PathVariable("id") Long id) {
+        commentService.delete(id);
     }
 }
 
