@@ -1,5 +1,7 @@
 package ru.pranch.testtaskrest.model;
 
+import org.springframework.context.annotation.Primary;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -8,16 +10,27 @@ import java.util.Objects;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "artifact_id")
     private Artifact artifactId;
     private String userId;
     private String content;
 
     public Comment() {
+    }
+
+    public Comment(String userId, String content) {
+        this.userId = userId;
+        this.content = content;
+    }
+
+    public Comment(Artifact artifactId, String userId, String content) {
+        this.artifactId = artifactId;
+        this.userId = userId;
+        this.content = content;
     }
 
     public Long getId() {

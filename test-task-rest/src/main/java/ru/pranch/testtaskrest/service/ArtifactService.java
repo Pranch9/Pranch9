@@ -43,6 +43,7 @@ public class ArtifactService {
 
     public void delete(Long id) {
         artifactRepos.deleteById(id);
+        artifactRepos.flush();
     }
 
     public Artifact save(Artifact artifact) {

@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.pranch.testtaskrest.model.Artifact;
 import ru.pranch.testtaskrest.repository.ArtifactRepos;
-import ru.pranch.testtaskrest.service.ArtifactService;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,9 +28,6 @@ public class ArtifactControllerTest {
 
     @LocalServerPort
     private int port;
-
-    @Autowired
-    private ArtifactService service;
 
     @Autowired
     private ArtifactRepos repos;

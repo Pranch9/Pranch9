@@ -32,6 +32,7 @@ public class CommentService {
 
     public void delete(Long id) {
         commentRepos.deleteById(id);
+        commentRepos.flush();
     }
 
     public Comment save(Comment comment) {

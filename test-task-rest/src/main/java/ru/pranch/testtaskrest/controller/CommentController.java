@@ -8,6 +8,8 @@ import ru.pranch.testtaskrest.model.Artifact;
 import ru.pranch.testtaskrest.model.Comment;
 import ru.pranch.testtaskrest.service.CommentService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("artifact")
 public class CommentController {
@@ -33,8 +35,8 @@ public class CommentController {
     }
 
     @GetMapping("/comments/{id}")
-    public Comment getOne(@PathVariable("id") Comment comment) {
-        return comment;
+    public Optional<Comment> getOne(@PathVariable("id") Long id) {
+        return commentService.findById(id);
     }
 
     @PostMapping("{id}/comments")
