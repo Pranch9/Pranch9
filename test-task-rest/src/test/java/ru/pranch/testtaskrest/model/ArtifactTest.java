@@ -1,5 +1,7 @@
 package ru.pranch.testtaskrest.model;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,25 +24,60 @@ public class ArtifactTest {
     private TestEntityManager entityManager;
 
     @Autowired
-    private ArtifactRepos artifactRepos;
+    private ArtifactRepos repos;
 
+    @Before
+    public void setup() {
+        Artifact testData;
+        testData = new Artifact("Spring1", "Boot1", "Test1");
+        repos.save(testData);
+        testData = new Artifact("Spring2", "Boot2", "Test2");
+        repos.save(testData);
+        testData = new Artifact("Spring3", "Boot3", "Test3");
+        repos.save(testData);
+        testData = new Artifact("Spring4", "Boot4", "Test4");
+        repos.save(testData);
+        testData = new Artifact("Spring5", "Boot5", "Test5");
+        repos.save(testData);
+    }
+
+    @After
+    public void resetDb() {
+        repos.deleteAll();
+        repos.flush();
+    }
 
     @Test
-    public void findByUserId() {
+    public void findById() {
         // given
         Artifact artifact1 = new Artifact("Spring1", "Boot1", "Test1");
-        Artifact artifact2 = new Artifact("Spring2", "Boot2", "Test2");
-        Artifact artifact3 = new Artifact("Spring3", "Boot3", "Test3");
-
         entityManager.persist(artifact1);
-        entityManager.persist(artifact2);
-        entityManager.persist(artifact3);
         entityManager.flush();
 
         // when
-        Optional<Artifact> found = artifactRepos.findById(artifact1.getId());
+        Optional<Artifact> found = repos.findById(artifact1.getId());
 
         // then
-        assertThat(found.get().getId()).isEqualTo(artifact1.getId());
+        assertThat(found.get().getUserId()).isEqualTo("Spring1");
+    }
+
+    @Test
+    public void addInDb() {
+        Artifact artifact = new Artifact();
+        artifact.setCategory("test");
+        repos.save(artifact);
+        assertThat(repos.getOne(6L).getCategory()).isEqualTo(artifact.getCategory());
+    }
+
+    @Test
+    public void updateInDb() {
+        repos.findAll().get(0).setCategory("UpdCategory");
+        assertThat( repos.findAll().get(0).getCategory()).isEqualTo("UpdCategory");
+    }
+
+    @Test
+    public void deleteFromDb() {
+        repos.deleteById(repos.findAll().get(0).getId());
+        assertThat(repos.count()).isEqualTo(4);
     }
 }
