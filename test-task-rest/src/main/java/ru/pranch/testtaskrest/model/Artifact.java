@@ -13,12 +13,12 @@ import java.util.Set;
 public class Artifact {
 
     @Id
-    @GeneratedValue(generator = "artifacts")
+    @GeneratedValue(generator = "artifact")
     @GenericGenerator(
-            name = "artifacts",
+            name = "artifact",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "ARTIFACTS"),
+                    @org.hibernate.annotations.Parameter(name = "sequence_name", value = "ARTIFACT"),
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             })

@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.pranch.testtaskrest.repository.ArtifactRepos;
+import ru.pranch.testtaskrest.repository.CommentRepos;
 
 import java.util.Optional;
 
@@ -22,7 +22,7 @@ public class CommentTest {
     private TestEntityManager entityManager;
 
     @Autowired
-    private ArtifactRepos artifactRepos;
+    private CommentRepos commentRepos;
 
 
     @Test
@@ -38,7 +38,7 @@ public class CommentTest {
         entityManager.flush();
 
         // when
-        Optional<Artifact> found = artifactRepos.findById(comment1.getId());
+        Optional<Comment> found = commentRepos.findById(comment1.getId());
 
         // then
         assertThat(found.get().getId()).isEqualTo(comment1.getId());
